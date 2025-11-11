@@ -9,7 +9,7 @@
 
 A stunning, interactive futuristic radar navigation component built with React, featuring a central radar display with animated sweep beam, grid overlays, and surrounding menu stacks. Perfect for sci-fi themed applications, dashboards, or any project needing a high-tech UI element.
 
-The original design is available on [Figma](https://www.figma.com/design/9kFBIsuoFyGkTRT3nsmZN9/Futuristic-Radar-UI-Component).
+The project is available on [GitHub](https://github.com/alisacorporation/Futuristic-radar-aim-UI-component).
 
 ## Table of Contents
 
