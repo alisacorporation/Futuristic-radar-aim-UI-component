@@ -1,0 +1,552 @@
+/* ===================================================
+   RADAR NAVIGATION - CSS VARIABLES & THEME
+   =================================================== */
+
+:root {
+  /* === COLORS === */
+  --radar-bg: #05060a;
+  --radar-accent: #00e6a8;
+  --radar-accent-dim: #00856350;
+  --radar-grid: #1a3d3680;
+  --radar-sweep: linear-gradient(90deg, transparent 0%, var(--radar-accent) 100%);
+  --radar-glow: rgba(0, 230, 168, 0.4);
+  --menu-bg: #0d1117;
+  --menu-hover-bg: #161b22;
+  --menu-text: #e6edf3;
+  --menu-label-bg: rgba(13, 17, 23, 0.95);
+  
+  /* === SIZES === */
+  --radar-size: 280px;
+  --menu-block-width: 56px;
+  --menu-block-height: 56px;
+  --menu-gap: 16px;
+  --connector-length: 30px;
+  
+  /* === ANIMATION === */
+  --sweep-duration: 6s;
+  --pulse-duration: 1.8s;
+  --hover-duration: 250ms;
+  --glow-intensity: 8px;
+  
+  /* === SPACING === */
+  --menu-offset: 40px; /* Distance from radar edge to menu blocks */
+}
+
+/* ===================================================
+   CONTAINER & LAYOUT
+   =================================================== */
+
+.radar-container {
+  min-height: 100vh;
+  background: var(--radar-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  overflow: hidden;
+}
+
+.radar-nav {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--menu-offset);
+}
+
+/* ===================================================
+   RADAR CORE
+   =================================================== */
+
+.radar {
+  position: relative;
+  width: var(--radar-size);
+  height: var(--radar-size);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0, 230, 168, 0.03) 0%, transparent 70%);
+  border: 2px solid var(--radar-grid);
+  box-shadow: 
+    0 0 20px var(--radar-accent-dim),
+    inset 0 0 40px rgba(0, 230, 168, 0.05);
+  overflow: hidden;
+}
+
+/* Grid rings */
+.radar__ring {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  border: 1px solid var(--radar-grid);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.radar__ring--1 {
+  width: 33%;
+  height: 33%;
+}
+
+.radar__ring--2 {
+  width: 66%;
+  height: 66%;
+}
+
+.radar__ring--3 {
+  width: 90%;
+  height: 90%;
+}
+
+/* Grid lines */
+.radar__gridlines {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.radar__gridline {
+  position: absolute;
+  background: var(--radar-grid);
+}
+
+.radar__gridline--v1,
+.radar__gridline--v2 {
+  width: 1px;
+  height: 100%;
+  top: 0;
+}
+
+.radar__gridline--v1 {
+  left: 50%;
+}
+
+.radar__gridline--v2 {
+  left: 50%;
+  transform: rotate(45deg);
+  transform-origin: center;
+}
+
+.radar__gridline--h1,
+.radar__gridline--h2 {
+  height: 1px;
+  width: 100%;
+  left: 0;
+}
+
+.radar__gridline--h1 {
+  top: 50%;
+}
+
+.radar__gridline--h2 {
+  top: 50%;
+  transform: rotate(45deg);
+  transform-origin: center;
+}
+
+/* Sweep beam animation */
+.radar__sweep {
+  position: absolute;
+  inset: 0;
+  animation: radar-sweep var(--sweep-duration) linear infinite;
+  pointer-events: none;
+}
+
+.radar__sweep-beam {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 50%;
+  height: 2px;
+  background: var(--radar-sweep);
+  transform-origin: left center;
+  filter: drop-shadow(0 0 var(--glow-intensity) var(--radar-accent));
+}
+
+.radar__sweep-beam::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 50%;
+  width: 40%;
+  height: 100%;
+  background: var(--radar-accent);
+  filter: blur(4px);
+  opacity: 0.6;
+  transform: translateY(-50%);
+}
+
+@keyframes radar-sweep {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Center crosshair */
+.radar__center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.radar__dot {
+  width: 8px;
+  height: 8px;
+  background: var(--radar-accent);
+  border-radius: 50%;
+  position: relative;
+  box-shadow: 
+    0 0 10px var(--radar-accent),
+    0 0 20px var(--radar-glow);
+  animation: radar-pulse var(--pulse-duration) ease-in-out infinite;
+}
+
+.radar__crosshair {
+  position: absolute;
+  background: var(--radar-accent);
+}
+
+.radar__crosshair--h {
+  width: 20px;
+  height: 1px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.radar__crosshair--v {
+  width: 1px;
+  height: 20px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+@keyframes radar-pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.3);
+    opacity: 0.7;
+  }
+}
+
+/* Scan lines overlay */
+.radar__scanlines {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 230, 168, 0.03) 2px,
+    rgba(0, 230, 168, 0.03) 4px
+  );
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+/* ===================================================
+   MENU STACKS
+   =================================================== */
+
+.menu-stack {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--menu-gap);
+  z-index: 10;
+}
+
+.menu-item-wrapper {
+  display: block;
+}
+
+/* ===================================================
+   MENU BLOCKS
+   =================================================== */
+
+.menu-block {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--menu-block-width);
+  height: var(--menu-block-height);
+  background: var(--menu-bg);
+  border: 1px solid var(--radar-grid);
+  border-radius: 28px;
+  color: var(--menu-text);
+  text-decoration: none;
+  cursor: pointer;
+  transition: all var(--hover-duration) cubic-bezier(0.34, 1.56, 0.64, 1);
+  overflow: visible;
+  box-shadow: 
+    0 4px 12px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+/* Curve blocks to follow radar tangent */
+.menu-stack--left .menu-block {
+  transform-origin: right center;
+  /* Rotate based on position to follow curve */
+  transform: rotate(calc((var(--item-index) - (var(--total-items) - 1) / 2) * -8deg));
+}
+
+.menu-stack--right .menu-block {
+  transform-origin: left center;
+  transform: rotate(calc((var(--item-index) - (var(--total-items) - 1) / 2) * 8deg));
+}
+
+/* Icon */
+.menu-block__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--radar-accent);
+  transition: all var(--hover-duration) ease;
+  z-index: 2;
+}
+
+/* Label (hidden by default) */
+.menu-block__label {
+  position: absolute;
+  white-space: nowrap;
+  padding: 8px 16px;
+  background: var(--menu-label-bg);
+  border: 1px solid var(--radar-accent);
+  border-radius: 6px;
+  font-size: 14px;
+  color: var(--menu-text);
+  opacity: 0;
+  pointer-events: none;
+  transition: all var(--hover-duration) ease;
+  box-shadow: 
+    0 4px 20px rgba(0, 0, 0, 0.5),
+    0 0 20px var(--radar-glow);
+  z-index: 3;
+}
+
+.menu-stack--left .menu-block__label {
+  right: calc(100% + 16px);
+  transform: translateX(10px);
+}
+
+.menu-stack--right .menu-block__label {
+  left: calc(100% + 16px);
+  transform: translateX(-10px);
+}
+
+/* Connector line */
+.menu-block__connector {
+  position: absolute;
+  width: var(--connector-length);
+  height: 2px;
+  background: linear-gradient(90deg, var(--radar-accent) 0%, transparent 100%);
+  opacity: 0;
+  transition: all var(--hover-duration) ease;
+  pointer-events: none;
+  filter: drop-shadow(0 0 4px var(--radar-accent));
+}
+
+.menu-stack--left .menu-block__connector {
+  right: calc(100% - 4px);
+  transform: scaleX(0);
+  transform-origin: right center;
+}
+
+.menu-stack--right .menu-block__connector {
+  left: calc(100% - 4px);
+  transform: scaleX(0);
+  transform-origin: left center;
+}
+
+/* ===================================================
+   HOVER & FOCUS STATES
+   =================================================== */
+
+.menu-block:hover,
+.menu-block:focus-visible {
+  background: var(--menu-hover-bg);
+  border-color: var(--radar-accent);
+  outline: none;
+  box-shadow: 
+    0 8px 24px rgba(0, 0, 0, 0.6),
+    0 0 30px var(--radar-glow),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+/* Expand outward on hover */
+.menu-stack--left .menu-block:hover,
+.menu-stack--left .menu-block:focus-visible {
+  transform: 
+    rotate(calc((var(--item-index) - (var(--total-items) - 1) / 2) * -8deg))
+    translateX(-12px) 
+    scale(1.06);
+}
+
+.menu-stack--right .menu-block:hover,
+.menu-stack--right .menu-block:focus-visible {
+  transform: 
+    rotate(calc((var(--item-index) - (var(--total-items) - 1) / 2) * 8deg))
+    translateX(12px) 
+    scale(1.06);
+}
+
+/* Icon glow on hover */
+.menu-block:hover .menu-block__icon,
+.menu-block:focus-visible .menu-block__icon {
+  filter: drop-shadow(0 0 8px var(--radar-accent));
+  transform: scale(1.1);
+}
+
+/* Show label on hover */
+.menu-block:hover .menu-block__label,
+.menu-block:focus-visible .menu-block__label {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Show connector on hover */
+.menu-block:hover .menu-block__connector,
+.menu-block:focus-visible .menu-block__connector {
+  opacity: 1;
+  transform: scaleX(1);
+}
+
+/* Active state */
+.menu-block:active {
+  transform: scale(0.95);
+}
+
+/* Keyboard focus ring */
+.menu-block:focus-visible {
+  outline: 2px solid var(--radar-accent);
+  outline-offset: 4px;
+}
+
+/* ===================================================
+   RESPONSIVE DESIGN
+   =================================================== */
+
+@media (max-width: 768px) {
+  :root {
+    --radar-size: 200px;
+    --menu-block-width: 48px;
+    --menu-block-height: 48px;
+    --menu-gap: 12px;
+    --menu-offset: 24px;
+  }
+
+  .radar-nav {
+    flex-direction: column;
+    gap: var(--menu-offset);
+  }
+
+  .menu-stack {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    max-width: 400px;
+  }
+
+  .menu-stack--left .menu-block,
+  .menu-stack--right .menu-block {
+    transform: rotate(0);
+  }
+
+  .menu-stack--left .menu-block:hover,
+  .menu-stack--left .menu-block:focus-visible {
+    transform: translateY(-12px) scale(1.06);
+  }
+
+  .menu-stack--right .menu-block:hover,
+  .menu-stack--right .menu-block:focus-visible {
+    transform: translateY(12px) scale(1.06);
+  }
+
+  .menu-stack--left .menu-block__label,
+  .menu-stack--right .menu-block__label {
+    top: calc(100% + 12px);
+    left: 50%;
+    right: auto;
+    transform: translate(-50%, -10px);
+  }
+
+  .menu-block:hover .menu-block__label,
+  .menu-block:focus-visible .menu-block__label {
+    transform: translate(-50%, 0);
+  }
+
+  .menu-stack--left .menu-block__connector,
+  .menu-stack--right .menu-block__connector {
+    top: calc(100% - 4px);
+    left: 50%;
+    right: auto;
+    width: 2px;
+    height: 20px;
+    transform: translateX(-50%) scaleY(0);
+    transform-origin: top center;
+    background: linear-gradient(180deg, var(--radar-accent) 0%, transparent 100%);
+  }
+
+  .menu-block:hover .menu-block__connector,
+  .menu-block:focus-visible .menu-block__connector {
+    transform: translateX(-50%) scaleY(1);
+  }
+}
+
+@media (max-width: 480px) {
+  :root {
+    --radar-size: 160px;
+    --menu-block-width: 44px;
+    --menu-block-height: 44px;
+  }
+
+  .radar-container {
+    padding: 1rem;
+  }
+}
+
+/* ===================================================
+   ACCESSIBILITY - REDUCED MOTION
+   =================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .radar__sweep {
+    animation: none;
+  }
+
+  .radar__dot {
+    animation: none;
+  }
+
+  .menu-block,
+  .menu-block__icon,
+  .menu-block__label,
+  .menu-block__connector {
+    transition-duration: 0.05s;
+  }
+}
+
+/* ===================================================
+   HIGH CONTRAST MODE
+   =================================================== */
+
+@media (prefers-contrast: high) {
+  .menu-block {
+    border-width: 2px;
+  }
+
+  .menu-block:focus-visible {
+    outline-width: 3px;
+  }
+}
