@@ -83,18 +83,18 @@
 }
 
 .radar__ring--1 {
-  width: 33%;
-  height: 33%;
+  width: 25%;
+  height: 25%;
 }
 
-.radar__ring--2 {
-  width: 66%;
-  height: 66%;
-}
+/* .radar__ring--2 {
+  width: 50%;
+  height: 50%;
+} */
 
 .radar__ring--3 {
-  width: 90%;
-  height: 90%;
+  width: 75%;
+  height: 75%;
 }
 
 /* Grid lines */
@@ -327,8 +327,9 @@
   font-size: 14px;
   color: var(--menu-text);
   opacity: 0;
+  visibility: hidden;
   pointer-events: none;
-  transition: all var(--hover-duration) ease;
+  transition: opacity 0.3s ease, transform 0.3s ease, visibility 0s linear 0.3s;
   box-shadow: 
     0 4px 20px rgba(0, 0, 0, 0.5),
     0 0 20px var(--radar-glow);
@@ -352,7 +353,7 @@
   height: 2px;
   background: linear-gradient(90deg, var(--radar-accent) 0%, transparent 100%);
   opacity: 0;
-  transition: all var(--hover-duration) ease;
+  transition: opacity 0.3s ease, transform 0.3s ease;
   pointer-events: none;
   filter: drop-shadow(0 0 4px var(--radar-accent));
 }
@@ -412,7 +413,9 @@
 .menu-block:hover .menu-block__label,
 .menu-block:focus-visible .menu-block__label {
   opacity: 1;
+  visibility: visible;
   transform: translateX(0);
+  transition-delay: 0s;
 }
 
 /* Show connector on hover */
