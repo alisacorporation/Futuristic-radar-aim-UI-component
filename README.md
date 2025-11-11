@@ -100,6 +100,10 @@ This project includes components from [shadcn/ui](https://ui.shadcn.com/) used u
 
 Photos used in this project are from [Unsplash](https://unsplash.com) and are used under their [license](https://unsplash.com/license).
 
+## Release
+
+**MD5 Hash**: `335340913bc0b210a9030aac64cc73db`
+
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
