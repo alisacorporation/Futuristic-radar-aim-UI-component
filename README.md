@@ -7,6 +7,10 @@
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.4.0-38B2AC.svg)](https://tailwindcss.com/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
+## Screenshot
+
+![Futuristic Radar UI Component](screenshot.jpg)
+
 A stunning, interactive futuristic radar navigation component built with React, featuring a central radar display with animated sweep beam, grid overlays, and surrounding menu stacks. Perfect for sci-fi themed applications, dashboards, or any project needing a high-tech UI element.
 
 The project is available on [GitHub](https://github.com/alisacorporation/Futuristic-radar-aim-UI-component).
@@ -31,10 +35,6 @@ The project is available on [GitHub](https://github.com/alisacorporation/Futuris
 - **Customizable**: Easy to modify colors, icons, and menu items
 - **TypeScript Support**: Full type safety with TypeScript definitions
 - **Modern Stack**: Built with React 18, Vite, and Tailwind CSS
-
-## Screenshot
-
-![Futuristic Radar UI Component](screenshot.jpg)
 
 ## Technologies
 
